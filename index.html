@@ -1,130 +1,216 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Please Open Me</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Will You Be My Valentine? 💘</title>
   <style>
+    /* small reset + ultra responsive */
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #ffd6e0, #ffeef5);
+      font-family: 'Segoe UI', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 10% 30%, #ffe0e7, #ffc0d0);
+      background-attachment: fixed;
       display: flex;
-      justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
+      justify-content: center;
+      min-height: 100dvh;
+      width: 100%;
+      padding: 12px;
       position: relative;
+      overflow-x: hidden;
+      /* soft pink glow */
     }
 
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       width: 100%;
-      max-width: 500px;
-      padding: 50px 35px;
-      border-radius: 30px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      max-width: 480px;
+      padding: 44px 28px;
+      border-radius: 40px;
+      box-shadow: 0 25px 45px rgba(255, 70, 120, 0.25);
       text-align: center;
-      z-index: 10;
+      border: 1px solid rgba(255, 220, 230, 0.6);
+      z-index: 20;
+      transition: all 0.2s;
     }
 
+    /* exactly as WhatsApp screenshot: clean, modern, with correct spacing */
     h1 {
-      color: #ff4d88;
-      font-size: 32px;
-      margin-bottom: 15px;
+      color: #ff3b6f;        /* deep valentine pink */
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+      word-break: break-word;
+      text-shadow: 0 2px 5px rgba(255, 70, 120, 0.1);
     }
 
     p {
-      font-size: 18px;
-      color: #555;
-      margin-bottom: 30px;
+      font-size: 20px;
+      color: #4a4a4a;
+      font-weight: 400;
+      margin-bottom: 36px;
+      padding: 0 5px;
+      background: rgba(255, 235, 240, 0.5);
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
 
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
+      gap: 25px;
       flex-wrap: wrap;
-    }
-
-    button {
-      padding: 14px 28px;
-      font-size: 16px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: 0.3s ease;
-      min-width: 120px;
-    }
-
-    .yes {
-      background-color: #ff4d88;
-      color: white;
-    }
-
-    .yes:hover {
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(255,77,136,0.4);
-    }
-
-    .no {
-      background-color: #f3f3f3;
-      color: #ff4d88;
+      margin-top: 10px;
       position: relative;
     }
 
-    /* Floating hearts */
+    button {
+      border: none;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 8px 14px rgba(0,0,0,0.05);
+      letter-spacing: 0.5px;
+      min-width: 140px;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .yes {
+      background: #ff1a4f;
+      color: white;
+      border: 1px solid #ff99aa;
+    }
+
+    .yes:hover {
+      transform: scale(1.12);
+      background: #ff2e5e;
+      box-shadow: 0 12px 25px rgba(255, 40, 100, 0.5);
+    }
+
+    /* NO BUTTON — starts normal, then absolutely positioned when moving */
+    .no {
+      background: #fff0f3;
+      color: #ff3b6f;
+      border: 2px solid #ffb6c1;
+      transition: none;  /* no transition for position changes, instant runaway */
+      z-index: 50;
+      touch-action: pan-x; /* allow touch moves but we override with absolute */
+    }
+
+    /* FLOATING HEARTS — exactly like screenshot vibe, more hearts, very romantic */
     .heart {
       position: fixed;
       bottom: -20px;
-      font-size: 22px;
-      animation: floatUp linear forwards;
-      opacity: 0.7;
-      z-index: 1;
+      font-size: 26px;
+      animation: floatToTop linear forwards;
+      opacity: 0.8;
+      z-index: 5;
+      pointer-events: none;
+      filter: drop-shadow(0 0 8px rgba(255, 80, 120, 0.3));
+      will-change: transform, opacity;
     }
 
-    @keyframes floatUp {
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
+    @keyframes floatToTop {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(12deg);
+        opacity: 0.1;
       }
     }
 
-    /* Mobile adjustments */
-    @media (max-width: 600px) {
-
+    /* responsive perfection: match WhatsApp screenshot style */
+    @media (max-width: 500px) {
       .card {
-        padding: 40px 25px;
-        border-radius: 25px;
+        max-width: 98%;
+        padding: 38px 20px;
+        border-radius: 32px;
       }
 
       h1 {
-        font-size: 26px;
+        font-size: 30px;
       }
 
       p {
-        font-size: 16px;
+        font-size: 18px;
+        padding: 6px 18px;
+        margin-bottom: 30px;
       }
 
       button {
-        font-size: 15px;
-        padding: 12px 22px;
+        font-size: 17px;
+        padding: 15px 28px;
+        min-width: 130px;
+      }
+
+      .buttons {
+        gap: 18px;
       }
     }
 
+    /* for very tiny screens (iPhone SE, etc) */
+    @media (max-width: 380px) {
+      h1 {
+        font-size: 26px;
+      }
+      .card {
+        padding: 32px 16px;
+      }
+      button {
+        min-width: 115px;
+        padding: 14px 18px;
+        font-size: 16px;
+      }
+    }
+
+    /* avoid overflow when button is absolutely positioned */
+    .no.moving {
+      position: fixed !important;
+      z-index: 9999;
+      margin: 0;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+      background: #ffe3e8;
+      transition: left 0.05s ease, top 0.05s ease; /* quick, but not instant */
+    }
+
+    /* keep card above everything */
+    .card {
+      position: relative;
+      z-index: 100;
+    }
+
+    /* simulate the EXACT WhatsApp image: "Will You Be My Valentine? ❤️" and second line as in screenshot */
+    .heart-emoji-large {
+      display: inline-block;
+    }
   </style>
 </head>
-
 <body>
 
+  <!-- main valentine card – exactly mimics the screenshot layout -->
   <div class="card">
-    <h1>Will You Be My Valentine? 💘</h1>
-    <p>You make my world brighter every day ✨</p>
+    <h1>Will You Be My Valentine? ❤️</h1>
+    <p>✨ You make my world brighter every day ✨</p>
 
     <div class="buttons">
       <button class="yes" onclick="sendLove()">Yes 💖</button>
@@ -132,42 +218,275 @@
     </div>
   </div>
 
-<script>
+  <script>
+    (function() {
+      "use strict";
 
-  const noBtn = document.getElementById("noBtn");
+      // ==========  BUTTON EVADE – more random, full viewport, mobile optimized ==========
+      const noBtn = document.getElementById('noBtn');
+      
+      // ensure noBtn exists
+      if (!noBtn) throw new Error("no button missing");
 
-  function moveButton() {
-    const x = Math.random() * (window.innerWidth - 150);
-    const y = Math.random() * (window.innerHeight - 80);
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+      // flag to avoid overlapping touches
+      let isMoving = false;
 
-  noBtn.addEventListener("mouseover", moveButton);
-  noBtn.addEventListener("touchstart", moveButton);
+      // function to get truly random positions – with margins, far from Yes button and edges
+      function getRandomPosition() {
+        // button dimensions (approx, but we use actual after render)
+        const btnWidth = noBtn.offsetWidth || 140;  
+        const btnHeight = noBtn.offsetHeight || 56;
 
-  function sendLove() {
-    const phoneNumber = "918473855948"; // Replace with your number
-    const message = "Yes 💖 I will be your Valentine!";
-    window.location.href =
-      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  }
+        // safe zone: don't go too far top/bottom, but full viewport
+        // leave 10px margin from edges
+        const maxX = window.innerWidth - btnWidth - 15;
+        const maxY = window.innerHeight - btnHeight - 15;
+        const minX = 8;
+        const minY = 12;  // avoid status bar
 
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-    document.body.appendChild(heart);
+        // generate random X and Y – true uniform distribution
+        let x = Math.random() * (maxX - minX) + minX;
+        let y = Math.random() * (maxY - minY) + minY;
 
-    setTimeout(() => heart.remove(), 7000);
-  }
+        // BUT we also want to avoid sticking near the "Yes" button. 
+        // get yes button position – but not always necessary, but add spice: sometimes just random is fine.
+        // optional: add 30% chance to teleport to far corner for fun
+        if (Math.random() < 0.35) {
+          // pick one of four corners with some offset
+          const corner = Math.floor(Math.random() * 4);
+          switch(corner) {
+            case 0: x = 10; y = 70; break;  // top-left
+            case 1: x = window.innerWidth - btnWidth - 20; y = 70; break; // top-right
+            case 2: x = 10; y = window.innerHeight - btnHeight - 30; break; // bottom-left
+            case 3: x = window.innerWidth - btnWidth - 20; y = window.innerHeight - btnHeight - 30; break; // bottom-right
+          }
+        }
 
-  setInterval(createHeart, 600);
+        // clamp again (safe)
+        x = Math.min(Math.max(x, 5), window.innerWidth - btnWidth - 10);
+        y = Math.min(Math.max(y, 10), window.innerHeight - btnHeight - 20);
 
-</script>
+        return { x, y };
+      }
 
+      // move function – applies absolute positioning
+      function moveButtonAway() {
+        if (!noBtn) return;
+        
+        const pos = getRandomPosition();
+        
+        // apply fixed positioning, with high z-index, and keep class for styling
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = pos.x + 'px';
+        noBtn.style.top = pos.y + 'px';
+        noBtn.style.zIndex = '9999';
+        // optional: add a tiny shadow to make it pop
+        noBtn.style.boxShadow = '0 15px 30px rgba(255,80,120,0.4)';
+        noBtn.classList.add('moving'); // for any extra styling
+        
+        // for touch devices: force reflow sometimes
+      }
+
+      // reset the button to relative inside card? NO! we WANT it to runaway.
+      // But we don't want it to disappear forever – but runaway is the charm.
+      // However, if the user manages to click "No" we still do nothing? Actually prevent any click on No.
+      // attach event listeners for both mouse and touch
+      
+      // important: prevent default on touch to avoid scrolling while dodging
+      function handleMoveTrigger(e) {
+        // prevent default to avoid zoom / page drag on mobile
+        if (e.type === 'touchstart' || e.type === 'touchmove' || e.type === 'mouseover') {
+          e.preventDefault();  // crucial for mobile: stops pull-to-refresh
+        }
+        moveButtonAway();
+      }
+
+      // add event listeners: hover for desktop, touchstart for mobile (immediate)
+      noBtn.addEventListener('mouseover', handleMoveTrigger);
+      noBtn.addEventListener('touchstart', handleMoveTrigger);
+      
+      // also on touchmove? for safety when sliding finger
+      noBtn.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        moveButtonAway();
+      });
+
+      // what if the user actually clicks the No button? we don't want them to feel bad.
+      // intercept click and move it again, never accept No
+      noBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        moveButtonAway();
+        // also maybe show a playful alert? but we want pure runaway.
+      });
+
+      // on window resize, reposition if button is in fixed mode, so it never goes offscreen
+      window.addEventListener('resize', function() {
+        // if button currently has fixed position, re-clamp
+        if (noBtn.style.position === 'fixed') {
+          let left = parseFloat(noBtn.style.left);
+          let top = parseFloat(noBtn.style.top);
+          if (!isNaN(left) && !isNaN(top)) {
+            const w = noBtn.offsetWidth;
+            const h = noBtn.offsetHeight;
+            const maxX = window.innerWidth - w - 10;
+            const maxY = window.innerHeight - h - 15;
+            left = Math.min(Math.max(left, 8), maxX);
+            top = Math.min(Math.max(top, 15), maxY);
+            noBtn.style.left = left + 'px';
+            noBtn.style.top = top + 'px';
+          }
+        }
+      });
+
+      // initial style: ensure no button is inline for first render, but we don't move it until hover/touch
+      // but we want the "No" button to start inside card. Ensure it's not fixed initially.
+      window.addEventListener('load', function() {
+        noBtn.style.position = '';
+        noBtn.style.left = '';
+        noBtn.style.top = '';
+        noBtn.style.zIndex = '';
+        noBtn.classList.remove('moving');
+        noBtn.style.boxShadow = ''; // revert to default
+      });
+
+      // small tweak: if orientation changes, maybe reset runaway if not triggered yet
+      window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+          if (noBtn.style.position !== 'fixed') {
+            noBtn.style.position = '';
+          } else {
+            // re-clamp
+            moveButtonAway();
+          }
+        }, 50);
+      });
+
+      // ==========  FLOATING HEARTS – more density, romantic ==========
+      function createHeart() {
+        const heartEl = document.createElement('div');
+        heartEl.className = 'heart';
+        
+        // alternate heart icons – similar to whatsapp sparkle
+        const heartIcons = ['❤️', '🧡', '💖', '💗', '💘', '💝', '💕', '❤️‍🔥'];
+        heartEl.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+        
+        // random horizontal position
+        heartEl.style.left = Math.random() * 100 + '%';
+        
+        // size variation
+        const size = Math.floor(Math.random() * 22) + 20; // 20-42px
+        heartEl.style.fontSize = size + 'px';
+        
+        // animation duration: slower / faster
+        heartEl.style.animationDuration = (Math.random() * 4 + 5) + 's'; // 5-9s
+        
+        // delay so they don't all start at same level
+        heartEl.style.animationDelay = (Math.random() * 2) + 's';
+        
+        // slight horizontal drift
+        heartEl.style.opacity = Math.random() * 0.6 + 0.3;
+        
+        document.body.appendChild(heartEl);
+        
+        // remove after animation ends (prevent memory overload)
+        setTimeout(() => {
+          if (heartEl && heartEl.remove) heartEl.remove();
+        }, 10000);
+      }
+
+      // generate more hearts than original — about every 250ms for richness
+      setInterval(createHeart, 280);
+      
+      // ==========  WHATSAPP MESSAGE ==========
+      window.sendLove = function() {
+        const phoneNumber = "918473855948"; // your number
+        const message = "Yes 💖 I will be your Valentine!";
+        // encode properly
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.location.href = whatsappUrl;
+      };
+
+      // also: Yes button animation + no accidental double
+      const yesBtn = document.querySelector('.yes');
+      if (yesBtn) {
+        yesBtn.addEventListener('click', function(e) {
+          // already calls sendLove, but ensure no double triggers
+        });
+      }
+
+      // ==========  EXTRA: to be 100% like screenshot, if No button is ever clicked (rare) we move it ==========
+      noBtn.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        moveButtonAway();
+      }, true);
+
+      // also on touchstart to move instantly (already done)
+      // on mouseenter also move
+      noBtn.addEventListener('mouseenter', moveButtonAway);
+
+      // fix for iOS: need to prevent default on touchstart to avoid scaling
+      noBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        moveButtonAway();
+      });
+
+    })();
+  </script>
+
+  <!-- tiny inline fallback: ensure No button moves like crazy -->
+  <script>
+    // additional randomizer: after 0.5 sec we also guarantee that No button runs on first touch
+    // also on page load we set up double safety
+    (function extremeRunaway() {
+      const noBtn = document.getElementById('noBtn');
+      if (!noBtn) return;
+      
+      // add multiple listeners to be super responsive
+      const runaway = function(e) {
+        if (e) e.preventDefault();
+        const btn = document.getElementById('noBtn');
+        if (!btn) return;
+        const w = btn.offsetWidth || 130;
+        const h = btn.offsetHeight || 56;
+        let x = Math.random() * (window.innerWidth - w - 30);
+        let y = Math.random() * (window.innerHeight - h - 40);
+        // but not behind the card? we allow anywhere except card? we want fun
+        btn.style.position = 'fixed';
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+        btn.style.zIndex = '10000';
+      };
+
+      // every single event
+      noBtn.addEventListener('mouseover', runaway);
+      noBtn.addEventListener('touchstart', runaway);
+      noBtn.addEventListener('touchmove', runaway);
+      noBtn.addEventListener('mousemove', function(e) { 
+        // small chance to move when mouse is near – hyper dodge
+        if (Math.random() > 0.6) runaway(e); 
+      });
+    })();
+  </script>
+
+  <!-- preload hearts already on load -->
+  <script>
+    (function initHearts() {
+      for (let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          const h = document.createElement('div');
+          h.className = 'heart';
+          h.innerHTML = ['💗','❤️','💖','💘','💕'][Math.floor(Math.random()*5)];
+          h.style.left = Math.random() * 100 + '%';
+          h.style.animationDuration = (Math.random() * 4 + 5) + 's';
+          h.style.fontSize = (Math.random() * 24 + 18) + 'px';
+          h.style.opacity = 0.5;
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), 8000);
+        }, i * 150);
+      }
+    })();
+  </script>
 </body>
 </html>
