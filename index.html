@@ -1,54 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Please Open Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Will You Be My Valentine? 💘</title>
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #ffd6e0, #ffeef5);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
+      padding: 20px;
       text-align: center;
     }
 
     .card {
       background: white;
-      padding: 40px;
+      padding: 40px 30px;
       border-radius: 25px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 420px;
       position: relative;
       z-index: 10;
-      animation: fadeIn 1.5s ease;
+      animation: fadeIn 1.2s ease;
     }
 
     h1 {
       color: #ff4d88;
-      font-size: 32px;
-      margin-bottom: 20px;
+      font-size: 28px;
+      margin-bottom: 15px;
     }
 
     p {
       color: #555;
-      font-size: 18px;
+      font-size: 16px;
+      margin-bottom: 25px;
     }
 
     .buttons {
-      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     button {
-      padding: 12px 25px;
-      font-size: 16px;
+      padding: 12px 22px;
+      font-size: 15px;
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      margin: 10px;
       transition: 0.3s ease;
+      min-width: 100px;
     }
 
     .yes {
@@ -57,18 +70,18 @@
     }
 
     .yes:hover {
-      transform: scale(1.1);
+      transform: scale(1.08);
       box-shadow: 0 5px 15px rgba(255,77,136,0.4);
     }
 
     .no {
       background-color: #f8f8f8;
       color: #ff4d88;
-      position: absolute;
+      position: relative;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -76,19 +89,40 @@
     .heart {
       position: absolute;
       color: #ff4d88;
-      font-size: 20px;
+      font-size: 18px;
       animation: float 6s linear infinite;
       opacity: 0.6;
     }
 
     @keyframes float {
       0% {
-        transform: translateY(100vh) scale(0.5);
+        transform: translateY(100vh) scale(0.6);
       }
       100% {
         transform: translateY(-10vh) scale(1.2);
       }
     }
+
+    /* Mobile Adjustments */
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 10px 18px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -106,13 +140,19 @@
 <script>
   const noBtn = document.getElementById("noBtn");
 
-  // Move NO button randomly
-  noBtn.addEventListener("mouseover", function() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
+  // Move NO button on hover (works on desktop)
+  noBtn.addEventListener("mouseover", moveButton);
+
+  // Move NO button on touch (for mobile)
+  noBtn.addEventListener("touchstart", moveButton);
+
+  function moveButton() {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.position = "absolute";
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-  });
+  }
 
   function sendLove() {
     const phoneNumber = "918473855948"; // Replace with your number
@@ -122,7 +162,7 @@
       `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   }
 
-  // Create floating hearts
+  // Floating hearts
   function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
@@ -136,7 +176,7 @@
     }, 6000);
   }
 
-  setInterval(createHeart, 400);
+  setInterval(createHeart, 500);
 </script>
 
 </body>
